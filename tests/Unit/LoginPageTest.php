@@ -16,4 +16,17 @@ class LoginPageTest extends TestCase
         $response->assertSee('email');
         $response->assertSee('password');
     }
+
+    public function test_dashboard_can_see_cards()
+    {
+        $user = \App\Models\User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $response = $this->actingAs($user)->get('/dashboard');
+        $response->assertStatus(200);
+        $response->assertSee('Welcome to the dashboard');
+    }
+
 }
